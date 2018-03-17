@@ -1,0 +1,164 @@
+.backgroundImg {
+  background-image: url(/img/swirl_pattern.png);
+  background-repeat: repeat;
+  height: 100vh;
+}
+  
+  .tree ul {
+    position: relative;
+    padding: 1em 0;
+    white-space: nowrap;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .tree ul::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+  .tree li {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 1em 0px 0 0px;
+  }
+  .tree li::before, .tree li::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 50%;
+    border-top: 1px solid #ccc;
+    width: 51%;
+    height: 1em;
+  }
+  .tree li::after {
+    right: auto;
+    left: 50%;
+    border-left: 1px solid #ccc;
+  }
+  .tree li:only-child::after, .tree li:only-child::before {
+    display: none;
+  }
+  .tree li:only-child {
+    padding-top: 0;
+  }
+  .tree li:first-child::before, .tree li:last-child::after {
+    border: 0 none;
+  }
+  .tree li:last-child::before {
+    border-right: 1px solid #ccc;
+    border-radius: 0 5px 0 0;
+  }
+  .tree li:first-child::after {
+    border-radius: 5px 0 0 0;
+  }
+  
+  .tree ul ul::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    border-left: 1px solid #ccc;
+    width: 0;
+    height: 1em;
+  }
+  
+  .tree li a {
+    border: 1px solid #ccc;
+    padding: 0.5em 0.75em;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 5px;
+    color: #333;
+    position: relative;
+    top: 1px;
+
+  }
+  
+  .tree li a:hover,
+  .tree li a:hover + ul li a {
+    background: #e9453f;
+    color: #fff;
+    border: 1px solid #e9453f;
+  }
+  
+  .tree li a:hover + ul li::after,
+  .tree li a:hover + ul li::before,
+  .tree li a:hover + ul::before,
+  .tree li a:hover + ul ul::before {
+    border-color: #e9453f;
+  }
+  
+
+  .chip
+  {
+    font-size: 12px !important;
+    margin-bottom: 0px !important; 
+    margin-right: 0px !important; 
+    height: 25px !important;
+    line-height: 25px !important;
+  }
+  .chip>img {
+    margin: 0 4px 0 -12px !important;
+    height: 25px !important;
+    width: 25px !important;
+}
+
+
+
+.tabs .tab a:hover, .tabs .tab a.active {
+  background-color:#cfd8dc;
+  color: #0091ea;
+}
+
+
+.tabs .indicator {
+  background-color: #0091ea;
+}
+
+
+
+.tabs .tab a {
+  color: #000;
+  font-weight: 700;
+  background-color: #fafafa;
+}
+
+.font-w-700{
+  font-weight: 700 !important;
+}
+
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}
+
+
+
+
+/* label color */
+.input-field label {
+  color: #343434 !important;
+  font-size: 15px !important;
+}
+/* label focus color */
+.input-field input[type=text]:focus + label {
+  color: #03a9f4 !important;
+}
+
+  /* label underline focus color */
+  .input-field input[type=text]:focus, .input-field input[type=email]:focus, .input-field input[type=password]:focus, .input-field input[type=number]:focus, textarea.materialize-textarea:focus:not([readonly]), .input-field input[type=search]:focus {
+      border-bottom: 1px solid #03a9f4 !important;
+      box-shadow: 0 1px 0 0 #03a9f4 !important;
+  }
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #03a9f4 !important;
+}

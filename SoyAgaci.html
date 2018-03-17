@@ -1,0 +1,660 @@
+﻿<!doctype html>
+<html lang="tr" class="blue-grey lighten-4">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="img/family-tree_favicon.png" rel="shortcut icon" type="image/png">
+    <title>Düzenli Soy Ağacı</title>
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="fontAwesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div ng-app="App_SoyAgaci">
+        <div ng-controller="CTRL_SoyAgaci">
+            <div class="center">
+                <img ng-src="{{'img/family-tree.png'}}" style="width:50px;width: 65px;top: 15px;position: relative; margin-bottom:10px;"
+                    alt="" class="">
+            </div>
+            <!-- <h3 class="center red-text text-lighten-2">SOY AĞACI UYGULAMASI</h3> -->
+            <div class="row">
+                <div class="col s12 m8 l6 offset-m2 offset-l3">
+                    <div class="card grey lighten-4 z-depth-3">
+                        <div class="card-content" style="padding:5px;">
+                            <span class="card-title center balck-text">E-Devlet Sayfasını aktar</span>
+                            <form>
+                                <div class="file-field input-field">
+                                    <div class="btn blue-grey lighten-2 waves-effect waves-light hoverable">
+                                        <span class="white-text">Dosya</span>
+                                        <input type="file" on-read-file="showContent($fileContent)">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path black-text" type="text" placeholder="E-Devlet soy sorgulama web sayfasını dosya olarak aktar">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-action center" style="padding: 6px 20px;">
+                            <button ng-init="btn_Cevir_Dosya_Kontrol = false" disabled="disabled" class="btn waves-effect waves-light green hoverable"
+                                ng-disabled="btn_Cevir_Dosya_Kontrol === false" ng-click="Cevir()" type="submit" name="action">Soy Ağacı Oluştur
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <blockquote>
+                        <p>Veritabanı ile ilgili herhangi bir kayıt tutulmamaktadır. Uygulama sadece soy bilgilerinizi anlaşılır
+                            bir tasarım ile düzenli bir şekilde göstermeye yarar.</p>
+                    </blockquote>
+                </div>
+            </div>
+
+            <div class="divider light-blue"></div>
+
+            <!--  -->
+            <div ng-if="content">
+                <p style="display:none;" ng-bind-html="content"></p>
+            </div>
+            <!--  -->
+
+            <div class="row" ng-show="(DuzenliSoyBilgileri).length" ng-cloak>
+                <div class="col s12">
+                    <div class="card z-depth-3 white" style="display:grid;">
+                        <div class="card-content" style="padding:8px;">
+                            <div class="row" style="margin-bottom:0px;">
+                                <div class="col s12 m8 l6 offset-l3 offset-m2">
+                                    <div class="card blue-grey lighten-5 z-depth-2 waves-effect waves-default hoverable" style="display:grid;" ng-click="detayEkrani(kendi_Adi_ID)">
+                                        <div class="card-content" style="padding:8px;">
+                                            <span class="card-title center font-w-700" ng-class="{'blue-text text-lighten-2' : kendi_cinsiyet === 'E' , 'pink-text text-accent-2' : kendi_cinsiyet === 'K'}"
+                                                ng-bind="(kendi_Adi)"></span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-tabs">
+                            <ul class="tabs tabs-fixed-width z-depth-1">
+                                <li class="tab">
+                                    <a class="active" href="#anneTarafi" ng-bind="('Anne Tarafı')"></a>
+
+                                </li>
+                                <li class="tab">
+                                    <a href="#babaTarafi" ng-bind="('Baba Tarafı')"></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-content" style="padding:8px;">
+                            <div id="anneTarafi">
+
+                                <div class="tree col s12">
+                                    <ul ng-if="Annesi">
+                                        <li ng-if="Annesi">
+                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesi_ID)">
+                                                <img src="img/kadin.png">
+                                                <span ng-bind="Annesi"></span>
+                                            </div>
+                                            <ul ng-if="Annesinin_Annesi || Annesinin_Babasi">
+                                                <li ng-if="Annesinin_Annesi">
+                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesi_ID)">
+                                                        <img src="img/kadin.png">
+                                                        <span ng-bind="Annesinin_Annesi"></span>
+                                                    </div>
+                                                    <ul ng-if="Annesinin_Annesinin_Annesi || Annesinin_Annesinin_Babasi">
+                                                        <li ng-if="Annesinin_Annesinin_Annesi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Annesi_ID)">
+                                                                <img src="img/kadin.png">
+                                                                <span ng-bind="Annesinin_Annesinin_Annesi"></span>
+                                                            </div>
+                                                            <ul ng-if="Annesinin_Annesinin_Annesinin_Annesi || Annesinin_Annesinin_Annesinin_Babasi">
+                                                                <li ng-if="Annesinin_Annesinin_Annesinin_Annesi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Annesinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Annesinin_Annesinin_Annesinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Annesinin_Annesinin_Annesinin_Annesi || Annesinin_Annesinin_Annesinin_Annesinin_Babasi">
+                                                                        <li ng-if="Annesinin_Annesinin_Annesinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Annesinin_Annesinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Annesinin_Annesinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Annesinin_Annesinin_Annesinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Annesinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Annesinin_Annesinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li ng-if="Annesinin_Annesinin_Annesinin_Babasi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Annesinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Annesinin_Annesinin_Annesinin_Babasi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Annesinin_Annesinin_Babasinin_Annesi || Annesinin_Annesinin_Annesinin_Babasinin_Babasi">
+                                                                        <li ng-if="Annesinin_Annesinin_Annesinin_Babasinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Annesinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Annesinin_Babasinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Annesinin_Annesinin_Annesinin_Babasinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Annesinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Annesinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li ng-if="Annesinin_Annesinin_Babasi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Babasi_ID)">
+                                                                <img src="img/erkek.png">
+                                                                <span ng-bind="Annesinin_Annesinin_Babasi"></span>
+                                                            </div>
+                                                            <ul ng-if="Annesinin_Annesinin_Babasinin_Annesi || Annesinin_Annesinin_Babasinin_Babasi">
+                                                                <li ng-if="Annesinin_Annesinin_Babasinin_Annesi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Babasinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Annesinin_Annesinin_Babasinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Annesinin_Babasinin_Annesinin_Annesi || Annesinin_Annesinin_Babasinin_Annesinin_Babasi">
+                                                                        <li ng-if="Annesinin_Annesinin_Babasinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Babasinin_Annesinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Babasinin_Annesinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Annesinin_Annesinin_Babasinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Babasinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Babasinin_Annesinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li ng-if="Annesinin_Annesinin_Babasinin_Babasi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Babasinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Annesinin_Annesinin_Babasinin_Babasi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Annesinin_Babasinin_Babasinin_Annesi || Annesinin_Annesinin_Babasinin_Babasinin_Babasi">
+                                                                        <li ng-if="Annesinin_Annesinin_Babasinin_Babasinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Babasinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Babasinin_Babasinin_Annesi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Annesinin_Annesinin_Babasinin_Babasinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Annesinin_Babasinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Annesinin_Babasinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+
+                                                <li ng-if="Annesinin_Babasi">
+                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasi_ID)">
+                                                        <img src="img/erkek.png">
+                                                        <span ng-bind="Annesinin_Babasi"></span>
+                                                    </div>
+                                                    <ul ng-if="Annesinin_Babasinin_Annesi || Annesinin_Babasinin_Babasi">
+                                                        <li ng-if="Annesinin_Babasinin_Annesi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Annesi_ID)">
+                                                                <img src="img/kadin.png">
+                                                                <span ng-bind="Annesinin_Babasinin_Annesi"></span>
+                                                            </div>
+                                                            <ul ng-if="Annesinin_Babasinin_Annesinin_Annesi || Annesinin_Babasinin_Annesinin_Babasi">
+                                                                <li>
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Annesinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Annesinin_Babasinin_Annesinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Babasinin_Annesinin_Annesinin_Annesi || Annesinin_Babasinin_Annesinin_Annesinin_Babasi">
+                                                                        <li ng-if="Annesinin_Babasinin_Annesinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Annesinin_Annesi_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Annesinin_Annesinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Annesinin_Babasinin_Annesinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Annesinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Annesinin_Annesinin_Babasi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li ng-if="Annesinin_Babasinin_Annesinin_Babasi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Annesinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Annesinin_Babasinin_Annesinin_Babasi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Babasinin_Annesinin_Babasinin_Annesi || Annesinin_Babasinin_Annesinin_Babasinin_Babasi">
+                                                                        <li ng-if="Annesinin_Babasinin_Annesinin_Babasinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Annesinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Annesinin_Babasinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Annesinin_Babasinin_Annesinin_Babasinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Annesinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Annesinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li ng-if="Annesinin_Babasinin_Babasi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Babasi_ID)">
+                                                                <img src="img/erkek.png">
+                                                                <span ng-bind="Annesinin_Babasinin_Babasi"></span>
+                                                            </div>
+
+                                                            <ul ng-if="Annesinin_Babasinin_Babasinin_Annesi || Annesinin_Babasinin_Babasinin_Babasi">
+                                                                <li>
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Babasinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Annesinin_Babasinin_Babasinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Babasinin_Babasinin_Annesinin_Annesi || Annesinin_Babasinin_Babasinin_Annesinin_Babasi">
+                                                                        <li ng-if="Annesinin_Babasinin_Babasinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Babasinin_Annesinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Babasinin_Annesinin_Annesi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Annesinin_Babasinin_Babasinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Babasinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Babasinin_Annesinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Babasinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Annesinin_Babasinin_Babasinin_Babasi"></span>
+
+                                                                    </div>
+                                                                    <ul ng-if="Annesinin_Babasinin_Babasinin_Babasinin_Annesi || Annesinin_Babasinin_Babasinin_Babasinin_Babasi">
+                                                                        <li>
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Babasinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Babasinin_Babasinin_Annesi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Annesinin_Babasinin_Babasinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Annesinin_Babasinin_Babasinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+                            <div id="babaTarafi">
+                                <div class="tree col s12">
+                                    <ul ng-if="Babasi">
+                                        <li ng-if="Babasi">
+                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasi_ID)">
+                                                <img src="img/erkek.png">
+                                                <span ng-bind="Babasi"></span>
+                                            </div>
+                                            <ul ng-if="Babasinin_Annesi || Babasinin_Babasi">
+                                                <li ng-cloak ng-if="Babasinin_Annesi">
+                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesi_ID)">
+                                                        <img src="img/kadin.png">
+                                                        <span ng-bind="Babasinin_Annesi"></span>
+                                                    </div>
+                                                    <ul ng-if="Babasinin_Annesinin_Annesi || Babasinin_Annesinin_Babasi">
+                                                        <li ng-if="Babasinin_Annesinin_Annesi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Annesi_ID)">
+                                                                <img src="img/kadin.png">
+                                                                <span ng-bind="Babasinin_Annesinin_Annesi"></span>
+                                                            </div>
+                                                            <ul ng-if="Babasinin_Annesinin_Annesinin_Annesi || Babasinin_Annesinin_Annesinin_Babasi">
+                                                                <li ng-if="Babasinin_Annesinin_Annesinin_Annesi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Annesinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Babasinin_Annesinin_Annesinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Annesinin_Annesinin_Annesinin_Annesi || Babasinin_Annesinin_Annesinin_Annesinin_Babasi">
+                                                                        <li ng-if="Babasinin_Annesinin_Annesinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Annesinin_Annesinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Annesinin_Annesinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Babasinin_Annesinin_Annesinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Annesinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Annesinin_Annesinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li ng-if="Babasinin_Annesinin_Annesinin_Babasi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Annesinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Babasinin_Annesinin_Annesinin_Babasi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Annesinin_Annesinin_Babasinin_Annesi || Babasinin_Annesinin_Annesinin_Babasinin_Babasi">
+                                                                        <li ng-if="Babasinin_Annesinin_Annesinin_Babasinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Annesinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Annesinin_Babasinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Babasinin_Annesinin_Annesinin_Babasinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Annesinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Annesinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li ng-if="Babasinin_Annesinin_Babasi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Babasi_ID)">
+                                                                <img src="img/erkek.png">
+                                                                <span ng-bind="Babasinin_Annesinin_Babasi"></span>
+                                                            </div>
+                                                            <ul ng-if="Babasinin_Annesinin_Babasinin_Annesi || Babasinin_Annesinin_Babasinin_Babasi">
+                                                                <li ng-if="Babasinin_Annesinin_Babasinin_Annesi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Babasinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Babasinin_Annesinin_Babasinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Annesinin_Babasinin_Annesinin_Annesi || Babasinin_Annesinin_Babasinin_Annesinin_Babasi">
+                                                                        <li ng-if="Babasinin_Annesinin_Babasinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Babasinin_Annesinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Babasinin_Annesinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Babasinin_Annesinin_Babasinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Babasinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Babasinin_Annesinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li ng-if="Babasinin_Annesinin_Babasinin_Babasi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Babasinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Babasinin_Annesinin_Babasinin_Babasi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Annesinin_Babasinin_Babasinin_Annesi || Babasinin_Annesinin_Babasinin_Babasinin_Babasi">
+                                                                        <li ng-if="Babasinin_Annesinin_Babasinin_Babasinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Babasinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Babasinin_Babasinin_Annesi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Babasinin_Annesinin_Babasinin_Babasinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Annesinin_Babasinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Annesinin_Babasinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+
+
+                                                <li ng-if="Babasinin_Babasi">
+                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasi_ID)">
+                                                        <img src="img/erkek.png">
+                                                        <span ng-bind="Babasinin_Babasi"></span>
+                                                    </div>
+                                                    <ul ng-if="Babasinin_Babasinin_Annesi || Babasinin_Babasinin_Babasi">
+                                                        <li ng-if="Babasinin_Babasinin_Annesi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Annesi_ID)">
+                                                                <img src="img/kadin.png">
+                                                                <span ng-bind="Babasinin_Babasinin_Annesi"></span>
+                                                            </div>
+                                                            <ul ng-if="Babasinin_Babasinin_Annesinin_Annesi || Babasinin_Babasinin_Annesinin_Babasi">
+                                                                <li>
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Annesinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Babasinin_Babasinin_Annesinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Babasinin_Annesinin_Annesinin_Annesi || Babasinin_Babasinin_Annesinin_Annesinin_Babasi">
+                                                                        <li ng-if="Babasinin_Babasinin_Annesinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Annesinin_Annesi_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Annesinin_Annesinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Babasinin_Babasinin_Annesinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Annesinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Annesinin_Annesinin_Babasi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li ng-if="Babasinin_Babasinin_Annesinin_Babasi">
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Annesinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Babasinin_Babasinin_Annesinin_Babasi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Babasinin_Annesinin_Babasinin_Annesi || Babasinin_Babasinin_Annesinin_Babasinin_Babasi">
+                                                                        <li ng-if="Babasinin_Babasinin_Annesinin_Babasinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Annesinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Annesinin_Babasinin_Annesi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Babasinin_Babasinin_Annesinin_Babasinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Annesinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Annesinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                        <li ng-if="Babasinin_Babasinin_Babasi">
+                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Babasi_ID)">
+                                                                <img src="img/erkek.png">
+                                                                <span ng-bind="Babasinin_Babasinin_Babasi"></span>
+                                                            </div>
+
+                                                            <ul ng-if="Babasinin_Babasinin_Babasinin_Annesi || Babasinin_Babasinin_Babasinin_Babasi">
+                                                                <li>
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Babasinin_Annesi_ID)">
+                                                                        <img src="img/kadin.png">
+                                                                        <span ng-bind="Babasinin_Babasinin_Babasinin_Annesi"></span>
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Babasinin_Babasinin_Annesinin_Annesi || Babasinin_Babasinin_Babasinin_Annesinin_Babasi">
+                                                                        <li ng-if="Babasinin_Babasinin_Babasinin_Annesinin_Annesi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Babasinin_Annesinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Babasinin_Annesinin_Annesi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-if="Babasinin_Babasinin_Babasinin_Annesinin_Babasi">
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Babasinin_Annesinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Babasinin_Annesinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Babasinin_Babasi_ID)">
+                                                                        <img src="img/erkek.png">
+                                                                        <span ng-bind="Babasinin_Babasinin_Babasinin_Babasi"></span>
+
+                                                                    </div>
+                                                                    <ul ng-if="Babasinin_Babasinin_Babasinin_Babasinin_Annesi || Babasinin_Babasinin_Babasinin_Babasinin_Babasi">
+                                                                        <li>
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Babasinin_Babasinin_Annesi_ID)">
+                                                                                <img src="img/kadin.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Babasinin_Babasinin_Annesi"></span>
+
+                                                                            </div>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="chip z-depth-1 hoverable waves-effect waves-green" ng-click="detayEkrani(Babasinin_Babasinin_Babasinin_Babasinin_Babasi_ID)">
+                                                                                <img src="img/erkek.png">
+                                                                                <span ng-bind="Babasinin_Babasinin_Babasinin_Babasinin_Babasi"></span>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div id="MODAL_detayliBilgi" class="modal modal-fixed-footer">
+                    <div class="modal-content" style="padding:0px;">
+                        <h5 class="center">
+                            <img ng-src="{{detay_Cinsiyet == 'E'? 'img/erkek.png' : 'img/kadin.png'}}" style="width:50px;width: 50px;top: 15px;position: relative;margin-right: 10px;"
+                                alt="" class="circle"> {{detay_AdiSoyadi}}</h5>
+                        <div class="row">
+                            <div class="col s12">
+                                <ul class="collection z-depth-1">
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-sitemap circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Yakınlık</span>
+                                        <p ng-bind="detay_Yakinlik"></p>
+
+                                    </li>
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-user circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Baba Adı</span>
+                                        <p ng-bind="detay_BabaAdi | ifEmpty:'-'"></p>
+
+                                    </li>
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-user circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Ana Adı</span>
+                                        <p ng-bind="detay_AnneAdi | ifEmpty:'-'"></p>
+
+                                    </li>
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-calendar-alt circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Doğum Yeri / Tarihi</span>
+                                        <p ng-bind="(detay_DogumYeri)+(' - ')+(detay_DogumTarihi)"></p>
+
+                                    </li>
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-map-marker-alt circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">İl-İlçe-Mahalle/Köy</span>
+                                        <p ng-bind="detay_Il_Ilce_Mahalle | ifEmpty:'-'"></p>
+
+                                    </li>
+
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-calendar-alt circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Durumu / Ölüm Tarihi</span>
+                                        <p>
+                                            <span ng-class="{'red-text' : detay_Durum === 'Ölüm', 'green-text' :  detay_Durum === 'Sağ'}" ng-bind="(detay_Durum)"></span> -
+                                            <span ng-bind="detay_OlumTarihi | ifEmpty:'-'"></span>
+                                        </p>
+
+                                    </li>
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-birthday-cake circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Yaşı</span>
+                                        <p ng-bind="detay_Yas | ifEmpty:'-'"></p>
+
+                                    </li>
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-venus-mars circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Medeni Hali</span>
+                                        <p ng-bind="detay_MedeniHali | ifEmpty:'-'"></p>
+
+                                    </li>
+                                    <li class="collection-item avatar" style="min-height:60px;">
+                                        <i class="fas fa-id-card circle blue lighten-2"></i>
+                                        <span class="title blue-text text-lighten-2 font-w-700">Cilt-Hane-Birey Sıra No</span>
+                                        <p ng-bind="detay_CiltHane | ifEmpty:'-'"></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align:center;">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-light hoverable btn red white-text">
+                            <i class="material-icons left">close</i>Kapat</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="materialize/js/materialize.min.js"></script>
+    <script src="js/angular-1.6.9.min.js"></script>
+    <script src="js/angular-sanitize.min.js"></script>
+    <script src="js/moment-with-locales.js"></script>
+    <script src="js/jquery.tabletojson.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.tabs').tabs();
+            $('.modal').modal();
+        });
+    </script>
+    <script src="controllers/soyController.js"></script>
+</body>
+
+</html>
