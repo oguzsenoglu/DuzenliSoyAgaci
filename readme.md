@@ -1,3 +1,3 @@
 # Deneme Başlık
 
-İlk proje aktarımı
+İlk proje aktarımı Notebook
