@@ -1,3 +1,3 @@
-# Deneme Başlık
+# Düzenli Soy Ağacı - E-Devlet Alt-Üst Soy Bilgileri Sayfası ile
 
-İlk proje aktarımı Notebook
+Soy bilgilerinizi Material Design tasarım ile kolay anlaşılır ve kronolojik şekilde şema halinde görüntülemenizi sağlar.
