@@ -24,7 +24,12 @@
                 <div class="col s12 m8 l6 offset-m2 offset-l3">
                     <div class="card grey lighten-4 z-depth-3">
                         <div class="card-content" style="padding:5px;">
-                            <span class="card-title center balck-text">E-Devlet Sayfasını aktar</span>
+                            <span class="card-title center balck-text">E-Devlet Sayfasını aktar
+                                <button class="waves-effect waves-light btn-floating red right tooltipped"
+                                    ng-click="Yardim()" data-position="top" data-delay="50" data-tooltip="Yardım">
+                                    <i class="material-icons" style="margin-top:4px;">help_outline</i>
+                                </button>
+                            </span>
                             <form>
                                 <div class="file-field input-field">
                                     <div class="btn blue-grey lighten-2 waves-effect waves-light hoverable">
@@ -639,6 +644,50 @@
                     </div>
                 </div>
             </div>
+
+            <div id="MODAL_Yardim" class="modal modal-fixed-footer">
+                <div class="modal-content">
+                    <h5 class="center">Yardım</h5>
+                    <blockquote>
+                        turkiye.gov.tr sitesinden Alt-Üst Soy Bilgisi Sorgulama sayfasına giderek ilk önce soy bilgilenizi oluşturun.
+                      </blockquote>
+                    <img class="materialboxed responsive-img" src="img/help/help_1.JPG">
+
+                    <blockquote>
+                        Oluşan soy bilgileriniz sayfada gözüktüğünde sayfanın herhangi bir yerinde mouse ie sağ tık yapıp "farklı kaydet" (Google Chrome) aracına tıklayın. Farklı bir tarayıcı kullanıyorsanız "sayfayı farklı kaydet" ya da "kaydet" seçenekleri olabilir.
+                      </blockquote>
+
+                      <img class="materialboxed responsive-img" src="img/help/help_2.jpg">
+
+                      <blockquote>
+                        Kaydetme işleminde dosyayı bilgisayarınızda bir alana kaydedin.
+                      </blockquote>
+
+                      <img class="materialboxed responsive-img" src="img/help/help_3.jpg">
+
+                      <blockquote>
+                        turkiye.gov.tr Alt-Üst Soy Bilgisi Sorgulama sayfası ile ilgili işlemler bitti. Uygulama sayfasında Dosya seçme butonu ile bilgisayarınıza kaydettiğiniz soy bilgilerinin sayfasını seçin.
+                      </blockquote>
+
+                      <img class="materialboxed responsive-img" src="img/help/help_4.jpg">
+
+                      <blockquote>
+                        Sayfa dosyası sonu .html uzantısı ile biten dosya yani internet sayfası dosyasını seçip aç butonuna basın.
+                      </blockquote>
+
+                      <img class="materialboxed responsive-img" src="img/help/help_5.jpg">
+
+                      <blockquote>
+                        Uygulamada artık SOY AĞACI OLUŞTUR butonu aktif olacaktır ve butona bastığınızda uygulama size düzenli bir şekilde soy bilgilerinizi kronolojik olarak gösterecek.
+                      </blockquote>
+
+                      <img class="materialboxed responsive-img" src="img/help/help_6.jpg">
+                </div>
+                <div class="modal-footer" style="text-align:center;">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-light hoverable btn red white-text">
+                        <i class="material-icons left">close</i>Kapat</a>
+                </div>
+            </div>
         </div>
     </div>
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -652,6 +701,8 @@
         $(document).ready(function () {
             $('.tabs').tabs();
             $('.modal').modal();
+            $('.tooltipped').tooltip();
+            $('.materialboxed').materialbox();
         });
     </script>
     <script src="controllers/soyController.js"></script>

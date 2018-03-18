@@ -2,6 +2,9 @@ var Soy_App = angular.module("App_SoyAgaci", ['ngSanitize']);
 Soy_App.controller("CTRL_SoyAgaci", ['$scope', '$http', function ($scope, $http) {
     $scope.Now_Date = new Date();
 
+    $scope.Yardim = function () {
+        $('#MODAL_Yardim').modal('open');
+      }
 
     $scope.detayEkrani = function (soySirasi) {
         $scope.detayliBilgisi = [];
