@@ -2,4 +2,4 @@
 
 > Soy bilgilerinizi Material Design tasarım ile kolay anlaşılır ve kronolojik şekilde şema halinde görüntülemenizi sağlar
 
-This site was built using [Soy Agaci Page](http://oguzsenoglu.com.tr/uygulama/soyagaci/soyagaci.html/)
+Uygulamanın çalışan hali kişisel sayfamda mevcut [Soy Ağacı Sayfası](http://oguzsenoglu.com.tr/uygulama/soyagaci/soyagaci.html)
