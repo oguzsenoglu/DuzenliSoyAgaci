@@ -15,6 +15,6 @@ Uygulamanın çalışan hali kişisel sayfamda mevcut [Soy Ağacı Sayfası](htt
 
 # Yapılacaklar
 
-- [] PDF dosyası da eklenerek soy ağacı şekillendirilecek
-- [] Soydaki kişilerin yaşları grafik olarak gösterilecek
-- [] Tasarım mobil uyumlu fakat Soy ağacı fazla büyük olduğunda yatay olarak uzaması giderilecek. Ya da mobilde dikey olarak soy ağacı olacak.
+- [ ] PDF dosyası da eklenerek soy ağacı şekillendirilecek
+- [ ] Soydaki kişilerin yaşları grafik olarak gösterilecek
+- [ ] Tasarım mobil uyumlu fakat Soy ağacı fazla büyük olduğunda yatay olarak uzaması giderilecek. Ya da mobilde dikey olarak soy ağacı olacak.
